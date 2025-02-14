@@ -1,0 +1,65 @@
+=============================================================================
+segundo ejercicio
+
+Gente, les dejo el ejercicio 2
+
+En base a una lista de conceptos ej:
+Todos estos van a ir en un array
+
+ramos_mejia
+banco_rio
+despegar_com
+digital_ocean
+lanus
+
+
+en una carpeta existente por ejemplo 
+c:/documentos
+
+hay que crear (en base a la lista de arriba)
+
+ramos_mejia
+   01_enero
+      01_noutilizado
+         leeme.txt 
+      02_noutilizado
+         leeme.txt
+      03_noutilizado
+         leeme.txt
+      04_noutilizado
+         leeme.txt
+      
+      los dias que hay en medio hasta llegar al 31 de Enero
+      
+      31_noutilizado
+         leeme.txt
+         
+   02_febrero
+      Exactamente igual del 01 al 28 
+      (no hace falta el bisiesto)
+      
+   todos los meses hasta llegar a diciembre
+   
+   12_diciembre 
+      01_noutilizado
+         leeme.txt
+         
+
+Aclaraciones
+         
+1- Antes de crear una carpeta verificar que existe
+2- Antes de crear el archivo leeme.txt verificar si ya no existe
+3- dentro del archivo leeme poner la leyenda.
+   "el formato de los documentos es: tipo_de_documento__correspondencia"
+
+MAS ACLARACIONES
+
+4- Puedo no poner el numero 01_enero y poner 1_enero ? NO
+5- Puedo poner los dias que quedan de enero ? en vez de poner todos ? NO
+6- Debo considerar que el año es o no biciesto ? NO
+7- Debo preguntar para que sirve esta estructura de directorios ? 😂😂😂 NO
+8- Puedo poner el leeme.txt una sola vez se repite mucho. NO
+9- Puedo poner el leeme.txt una sola vez se repite mucho. NO
+
+
+=============================================================================
