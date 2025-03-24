@@ -1,0 +1,122 @@
+body {
+    margin: 0;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+    background-color: #ffffff;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+h1 {
+    color: #1a3e6f;
+    font-size: 2.5em;
+    margin: 10px 0;
+    text-transform: uppercase;
+}
+
+.expo-tag {
+    display: inline-block;
+    background-color: #4564BEff;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 3px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+h2 {
+    color: #63A4BAff;
+    font-size: 2em;
+    margin: 10px 0;
+}
+
+h3 {
+    color: #4564BEff;
+    font-size: 1.5em;
+    margin: 10px 0;
+}
+
+.actividades h4 {
+    color: #63A4BAff;
+    font-size: 1.8em;
+    margin: 20px 0;
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 20px;
+}
+
+ul li {
+    color: #444;
+    font-size: 1.2em;
+    margin: 15px 0;
+    position: relative;
+    padding-left: 25px;
+    border-left: 2px solid #1a3e6f; /* Agrega esta línea */
+}
+
+ul li::before {
+    color: #1a3e6f;
+    font-size: 1.5em;
+    position: absolute;
+    left: 0;
+    top: -3px;
+}
+
+.actividades ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 0; /* Elimina el margen de la lista */
+}
+
+.actividades ul li {
+    color: #444;
+    font-size: 1.2em;
+    margin: 0; /* Elimina el margen entre los elementos de la lista */
+    padding: 15px 0 15px 25px; /* Ajusta el relleno para mantener el espacio interno */
+    border-left: 1px solid #1a3e6f; /* Agrega la línea contigua */
+    position: relative;
+}
+
+footer {
+    display: flex;
+    flex-direction: column; /* Cambia la dirección del flex a columna */
+    align-items: left;
+    gap: 4px;
+}
+.url {
+    color: #1a3e6f;
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
+.redes-uocra img{
+    width: 30px;
+    height: 30px;
+}
+
+.normal-text {
+    font-weight: normal;
+}
+
+.bold-text {
+    font-weight: bold;
+}
+
+.final-pagina {
+    height: 5px;
+    width: 100vw; /* Cambia a 100vw para asegurar que ocupe todo el ancho de la ventana */
+    background-color: #1a3e6f; /* Puedes cambiar el color según tu preferencia */
+    margin-top: 20px; /* Opcional: agrega un margen superior si es necesario */
+    position: absolute; /* Asegura que se posicione correctamente */
+    left: 0; /* Alinea el div al borde izquierdo */
+}
