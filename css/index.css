@@ -15,28 +15,89 @@ header {
     margin-bottom: 30px;
 }
 
-h1 {
-    font-size: 2.5rem;
-    text-align: right;
-    margin: 0; /* Elimina el margen */
-    color: #4564BEff;
+.expo-formacion {
+    width: 350px;
+    border-color: red;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 0 auto;
+    padding: 20px 0;
+    position: relative;
 }
 
-h1 span {
-    display: block;
-    text-align: center;
+.expo-formacion .fila-superior {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 2px; /* Reducido de 10px a 2px para minimizar el espacio */
+}
+
+.expo-formacion h1 {
+    font-size: 2.5rem;
+    color: #4564BE;
+    margin: 0 10px; /* Espaciado horizontal entre el h1 y el triángulo */
+    line-height: 1;
+    position: static; /* Quitamos la posición absoluta */
+    transform: none; /* Eliminamos la transformación */
+}
+
+.expo-formacion .triangulo {
+    width: 0;
+    height: 0;
+    border-bottom: 20px solid rgb(244, 255, 28);
+    border-left: 20px solid transparent;
+    margin: 0;
+}
+
+.expo-formacion h2 {
     font-size: 3.4rem;
-    color: #63A4BAff;
+    color: #63A4BA;
+    margin: 2px 0 0; /* Reducido de 10px a 2px para minimizar el espacio */
+    text-align: center;
+    position: static; /* Quitamos la posición absoluta */
+    transform: none; /* Eliminamos la transformación */
+    width: 100%; /* Aseguramos que ocupe todo el ancho disponible */
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: #4564BE;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.triangulo {
+    width: 0;
+    height: 0;
+    border-bottom: 20px solid rgb(244, 255, 28);
+    border-left: 20px solid transparent;
+    margin: 0;
+}
+
+h2 {
+    font-size: 3.4rem;
+    color: #63A4BA;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+    text-align: center;
 }
 
 h3 {
-    color: #4564BEff;
+    color: #4564BE;
     font-size: 1.5em;
-    margin: 0; /* Elimina el margen */
+    margin: 0;
 }
 
 .actividades h4 {
-    color: #63A4BAff;
+    color: #63A4BA;
     font-size: 1.8em;
     margin: 20px 0;
 }
@@ -52,11 +113,11 @@ ul li {
     margin: 15px 0;
     position: relative;
     padding-left: 25px;
-    border-left: 2px solid #4564BEff; /* Agrega esta línea */
+    border-left: 2px solid #4564BE;
 }
 
 ul li::before {
-    color: #4564BEff;
+    color: #4564BE;
     font-size: 1.5em;
     position: absolute;
     left: 0;
@@ -66,27 +127,27 @@ ul li::before {
 .actividades ul {
     list-style-type: none;
     padding-left: 0;
-    margin: 0; /* Elimina el margen de la lista */
+    margin: 0;
 }
 
 .actividades ul li {
     color: #444;
     font-size: 1.2em;
-    margin: 0; /* Elimina el margen entre los elementos de la lista */
-    padding: 15px 0 15px 25px; /* Ajusta el relleno para mantener el espacio interno */
-    border-left: 1px solid #4564BEff; /* Agrega la línea contigua */
+    margin: 0;
+    padding: 15px 0 15px 25px;
+    border-left: 1px solid #4564BE;
     position: relative;
 }
 
 footer {
     display: flex;
-    flex-direction: column; /* Cambia la dirección del flex a columna */
-    align-items: left;
+    flex-direction: column;
+    align-items: flex-start;
     gap: 4px;
 }
 
 .url {
-    color: #4564BEff;
+    color: #4564BE;
     font-size: 1.3em;
     font-weight: bold;
 }
@@ -106,11 +167,11 @@ footer {
 
 .final-pagina {
     height: 5px;
-    width: 100vw; /* Asegura que ocupe todo el ancho de la ventana */
-    background-color: #4564BEff; /* Puedes cambiar el color según tu preferencia */
-    margin-top: 20px; /* Opcional: agrega un margen superior si es necesario */
-    position: absolute; /* Asegura que se posicione correctamente */
-    left: 0; /* Alinea el div al borde izquierdo */
+    width: 100vw;
+    background-color: #4564BE;
+    margin-top: 20px;
+    position: absolute;
+    left: 0;
 }
 
 .btn {
@@ -119,7 +180,7 @@ footer {
     margin: 5px 0;
     font-size: 1em;
     color: #fff;
-    background-color: #4564BEff;
+    background-color: #4564BE;
     border: none;
     border-radius: 5px;
     text-align: center;
@@ -128,13 +189,14 @@ footer {
 }
 
 .btn:hover {
-    background-color: #4564BE;
+    background-color: #3454A0;
 }
 
 hr {
-    border: 0; /* Elimina el borde predeterminado */
-    height: 3px; /* Define la altura del hr */
-    background: linear-gradient(to left, #4564BEff 1px, #4564BEff 50%, #4564BEff 100%);
-    margin: 0 auto; /* Centra el hr horizontalmente */
-    width: 335px; /* Define el ancho del hr */
+    display: block;
+    border: 0;
+    border-top: 3px solid #4564BE;
+    margin: 0 auto;
+    width: 335px;
 }
+
