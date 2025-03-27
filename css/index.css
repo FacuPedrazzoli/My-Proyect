@@ -19,7 +19,7 @@ h1 {
     font-size: 2.5rem;
     text-align: right;
     margin: 0; /* Elimina el margen */
-    color: #4564BEff
+    color: #4564BEff;
 }
 
 h1 span {
@@ -84,13 +84,14 @@ footer {
     align-items: left;
     gap: 4px;
 }
+
 .url {
     color: #4564BEff;
     font-size: 1.3em;
     font-weight: bold;
 }
 
-.redes-uocra img{
+.redes-uocra img {
     width: 30px;
     height: 30px;
 }
@@ -131,7 +132,9 @@ footer {
 }
 
 hr {
-    border: 0;
-    border-top: 1px solid #334155;
-    margin: 0; /* Elimina el margen */
+    border: 0; /* Elimina el borde predeterminado */
+    height: 3px; /* Define la altura del hr */
+    background: linear-gradient(to left, #4564BEff 1px, #4564BEff 50%, #4564BEff 100%);
+    margin: 0 auto; /* Centra el hr horizontalmente */
+    width: 335px; /* Define el ancho del hr */
 }
