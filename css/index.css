@@ -1,202 +1,234 @@
-body {
+/* Variables CSS para mantenimiento consistente */
+:root {
+    --color-primario: #4564BE;
+    --color-secundario: #63A4BA;
+    --color-accent: rgb(244, 255, 28);
+    --color-texto: #333;
+    --color-fondo: #f0f0f0;
+    --ancho-contenedor: 800px;
+    --transicion-rapida: all 0.3s ease;
+}
+
+/* Reset mejorado y estilos base */
+*,
+*::before,
+*::after {
     margin: 0;
-    padding: 20px;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 62.5%; /* 1rem = 10px */
+}
+
+body {
     font-family: 'Arial', sans-serif;
-    background-color: #ffffff;
-}
-
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-header {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.expo-formacion {
-    width: 350px;
-    border-color: red;
+    line-height: 1.6;
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
+}
+
+/* Contenedor principal mejorado */
+.container {
+    width: 90%;
+    max-width: var(--ancho-contenedor);
     margin: 0 auto;
-    padding: 20px 0;
-    position: relative;
+    padding: 2rem 0;
+    flex: 1;
+    display: grid;
+    gap: 3rem;
 }
 
-.expo-formacion .fila-superior {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin-bottom: 2px; /* Reducido de 10px a 2px para minimizar el espacio */
-}
-
-.expo-formacion h1 {
-    font-size: 2.5rem;
-    color: #4564BE;
-    margin: 0 10px; /* Espaciado horizontal entre el h1 y el triángulo */
-    line-height: 1;
-    position: static; /* Quitamos la posición absoluta */
-    transform: none; /* Eliminamos la transformación */
-}
-
-.expo-formacion .triangulo {
-    width: 0;
-    height: 0;
-    border-bottom: 10px solid rgb(244, 255, 28);
-    border-left: 10px solid transparent;
-    margin: 0;
-}
-
-.expo-formacion h2 {
-    font-size: 3.4rem;
-    color: #63A4BA;
-    margin: 2px 0 0; /* Reducido de 10px a 2px para minimizar el espacio */
+/* Header - Títulos - Versión mejorada */
+.expo-formacion {
     text-align: center;
-    position: static; /* Quitamos la posición absoluta */
-    transform: none; /* Eliminamos la transformación */
-    width: 100%; /* Aseguramos que ocupe todo el ancho disponible */
+    margin-bottom: 2rem;
+}
+
+.fila-superior {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 0.5rem;
 }
 
 h1 {
-    font-size: 2.5rem;
-    color: #4564BE;
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
+    text-transform: uppercase;
+    font-size: clamp(3rem, 5vw, 4.5rem);
+    letter-spacing: 0.3rem;
+    color: var(--color-primario);
+    line-height: 1.2;
 }
 
 .triangulo {
     width: 0;
     height: 0;
-    border-bottom: 20px solid rgb(244, 255, 28);
-    border-left: 20px solid transparent;
-    margin: 0;
+    border-bottom: 2rem solid var(--color-accent);
+    border-left: 2rem solid transparent;
+    flex-shrink: 0;
 }
 
 h2 {
-    font-size: 3.4rem;
-    color: #63A4BA;
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    margin: 0;
-    text-align: center;
-}
-
-h3 {
-    color: #4564BE;
-    font-size: 1.5em;
-    margin: 0;
-}
-
-.actividades h4 {
-    color: #63A4BA;
-    font-size: 1.8em;
-    margin: 20px 0;
-}
-
-ul {
-    list-style-type: none;
-    padding-left: 20px;
-}
-
-ul li {
-    color: #444;
-    font-size: 1.2em;
-    margin: 15px 0;
-    position: relative;
-    padding-left: 25px;
-    border-left: 2px solid #4564BE;
-}
-
-ul li::before {
-    color: #4564BE;
-    font-size: 1.5em;
-    position: absolute;
-    left: 0;
-    top: -3px;
-}
-
-.actividades ul {
-    list-style-type: none;
-    padding-left: 0;
-    margin: 0;
-}
-
-.actividades ul li {
-    color: #444;
-    font-size: 1.2em;
-    margin: 0;
-    padding: 15px 0 15px 25px;
-    border-left: 1px solid #4564BE;
-    position: relative;
-}
-
-footer {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
-}
-
-.url {
-    color: #4564BE;
-    font-size: 1.3em;
-    font-weight: bold;
-}
-
-.redes-uocra img {
-    width: 30px;
-    height: 30px;
-}
-
-.normal-text {
-    font-weight: normal;
-}
-
-.bold-text {
-    font-weight: bold;
-}
-
-.final-pagina {
-    height: 5px;
-    width: 100vw;
-    background-color: #4564BE;
-    margin-top: 20px;
-    position: absolute;
-    left: 0;
-}
-
-.btn {
-    display: inline-block;
-    padding: 10px 20px;
-    margin: 5px 0;
-    font-size: 1em;
-    color: #fff;
-    background-color: #4564BE;
-    border: none;
-    border-radius: 5px;
-    text-align: center;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-}
-
-.btn:hover {
-    background-color: #3454A0;
+    text-transform: uppercase;
+    font-size: clamp(2.4rem, 3.5vw, 3.2rem);
+    color: var(--color-secundario);
+    letter-spacing: 0.2rem;
 }
 
 hr {
-    display: block;
-    border: 0;
-    border-top: 3px solid #4564BE;
-    margin: 0 auto;
-    width: 335px;
+    border: 0.2rem solid var(--color-secundario);
+    margin: 1rem auto;
+    width: 80%;
+    max-width: 30rem;
 }
 
+h3 {
+    font-size: clamp(1.6rem, 2vw, 1.8rem);
+    color: var(--color-texto);
+    text-align: center;
+}
+
+.bold-text {
+    font-weight: 800;
+    color: var(--color-secundario);
+}
+
+/* Sección actividades - Mejorada */
+.actividades {
+    text-align: center;
+}
+
+.actividades h4 {
+    font-size: clamp(1.4rem, 2vw, 1.5rem);
+    color: #555;
+    margin-bottom: 1.5rem;
+}
+
+.actividades ul {
+    list-style: none;
+    display: grid;
+    gap: 1.5rem;
+    max-width: 50rem;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+/* Botones accesibles */
+.btn {
+    display: inline-block;
+    width: 100%;
+    padding: 1.2rem 2rem;
+    background-color: var(--color-primario);
+    color: white;
+    text-decoration: none;
+    border-radius: 0.8rem;
+    font-weight: 700;
+    transition: var(--transicion-rapida);
+    text-transform: uppercase;
+    font-size: 1.4rem;
+    border: 0.2rem solid transparent;
+}
+
+.btn:hover,
+.btn:focus {
+    transform: translateY(-0.3rem);
+    background-color: #3454A0;
+    outline: none;
+    box-shadow: 0 0.4rem 1.5rem rgba(0,0,0,0.15);
+}
+
+/* Footer mejorado */
+footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 0;
+    margin-top: auto;
+    gap: 2rem;
+}
+
+footer ul {
+    border-left: 0.2rem solid var(--color-texto);
+    padding-left: 1rem;
+    list-style: none;
+}
+
+.redes-uocra img {
+    width: 12rem;
+    height: auto;
+    display: block;
+}
+
+.url {
+    padding: 1rem;
+    text-align: right;
+}
+
+.url a {
+    color: var(--color-primario);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.4rem;
+    transition: var(--transicion-rapida);
+}
+
+.url a:hover,
+.url a:focus {
+    text-decoration: underline;
+    outline: none;
+    opacity: 0.9;
+}
+
+.final-pagina {
+    height: 3rem;
+    background-color: var(--color-primario);
+    margin-top: auto;
+}
+
+/* Media Queries mejorados */
+@media (max-width: 768px) {
+    .container {
+        width: 94%;
+        padding: 1.5rem 0;
+    }
+    
+    .fila-superior {
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    
+    .triangulo {
+        border-bottom: 3.5rem solid var(--color-accent); /* Color corregido */
+        margin: 0 1rem;
+    }
+    
+    footer {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    footer ul {
+        border-left: none;
+        padding-left: 0;
+    }
+    
+    .url {
+        text-align: center;
+    }
+}
+
+@media (min-width: 1200px) {
+    h1 {
+        letter-spacing: 0.5rem;
+    }
+    
+    .actividades ul {
+        max-width: 60rem;
+    }
+}
