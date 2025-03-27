@@ -1,183 +1,230 @@
-/* Variables CSS para mantenimiento consistente */
+/* ===== VARIABLES GLOBALES =====
+   Definición de colores, tamaños y transiciones para mantener consistencia
+   y facilitar cambios en todo el sitio */
 :root {
-    --color-primario: #4564BE;
-    --color-secundario: #63A4BA;
-    --color-accent: rgb(244, 255, 28);
-    --color-texto: #333;
-    --color-fondo: #f0f0f0;
-    --ancho-contenedor: 800px;
-    --transicion-rapida: all 0.3s ease;
+    --color-primario: #4564BE;    /* Azul principal usado en títulos y botones */
+    --color-secundario: #63A4BA;  /* Azul más claro para elementos secundarios */
+    --color-accent: rgb(244, 255, 28); /* Amarillo para acentos visuales (triángulo) */
+    --color-texto: #333;          /* Gris oscuro para texto principal */
+    --color-fondo: #f0f0f0;       /* Gris claro para el fondo de la página */
+    --ancho-contenedor: 800px;    /* Ancho máximo del contenido principal */
+    --transicion-rapida: all 0.3s ease; /* Transición suave para efectos hover */
+    --ancho-titulo: 80%;          /* Ancho común para título y línea */
+    --ancho-maximo-titulo: 30rem; /* Máximo ancho común para título y línea */
 }
 
-/* Reset mejorado y estilos base */
+/* ===== RESET CSS =====
+   Elimina márgenes y paddings predeterminados
+   y asegura que el modelo de caja sea consistente */
 *,
 *::before,
 *::after {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    box-sizing: border-box; /* Incluye padding y borde en el ancho total */
 }
 
+/* ===== CONFIGURACIÓN HTML Y BODY ===== */
 html {
-    scroll-behavior: smooth;
-    font-size: 62.5%; /* 1rem = 10px */
+    scroll-behavior: smooth; /* Hace que los desplazamientos internos sean suaves */
+    font-size: 62.5%;       /* Hace que 1rem = 10px para facilitar los cálculos */
 }
 
 body {
     font-family: 'Arial', sans-serif;
-    line-height: 1.6;
+    line-height: 1.6;           /* Espaciado entre líneas para mejor legibilidad */
     background-color: var(--color-fondo);
     color: var(--color-texto);
-    min-height: 100vh;
-    display: flex;
+    min-height: 100vh;          /* Asegura que ocupe al menos toda la altura visible */
+    display: flex;              /* Configuración para que el footer quede abajo */
     flex-direction: column;
 }
 
-/* Contenedor principal mejorado */
+/* ===== CONTENEDOR PRINCIPAL =====
+   Centra y limita el ancho del contenido */
 .container {
-    width: 90%;
-    max-width: var(--ancho-contenedor);
-    margin: 0 auto;
-    padding: 2rem 0;
-    flex: 1;
-    display: grid;
-    gap: 3rem;
+    width: 90%;                /* Usa 90% del ancho disponible */
+    max-width: var(--ancho-contenedor); /* Limita el ancho máximo */
+    margin: 0 auto;            /* Centra el contenedor */
+    padding: 2rem 0;           /* Espacio superior e inferior */
+    flex: 1;                   /* Hace que ocupe todo el espacio disponible */
+    display: grid;             /* Usa grid para organizar las secciones */
+    gap: 3rem;                 /* Espacio entre secciones */
 }
 
-/* Header - Títulos - Versión mejorada */
+/* ===== HEADER Y TÍTULOS =====
+   Estiliza la sección superior con el logo */
 .expo-formacion {
     text-align: center;
     margin-bottom: 2rem;
 }
 
+/* Contenedor flexible para la palabra "expo" y el triángulo */
 .fila-superior {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 1.5rem;
+    gap: 1.5rem;               /* Espacio entre elementos */
     margin-bottom: 0.5rem;
 }
 
+/* Título principal "EXPO" */
 h1 {
-    text-transform: uppercase;
-    font-size: clamp(3rem, 5vw, 4.5rem);
-    letter-spacing: 0.3rem;
+    text-transform: uppercase;  /* Convierte texto a mayúsculas */
+    font-size: clamp(3rem, 5vw, 4.5rem); /* Tamaño responsivo: mínimo, preferido, máximo */
+    letter-spacing: 0.3rem;     /* Espacio entre letras */
     color: var(--color-primario);
     line-height: 1.2;
 }
 
+/* Elemento decorativo triangular */
 .triangulo {
     width: 0;
     height: 0;
-    border-bottom: 2rem solid var(--color-accent);
+    border-bottom: 2rem solid var(--color-accent); /* Crea triángulo con bordes */
     border-left: 2rem solid transparent;
-    flex-shrink: 0;
+    flex-shrink: 0;             /* Evita que el triángulo se encoja */
 }
 
+/* Título secundario "FORMACION" */
 h2 {
     text-transform: uppercase;
     font-size: clamp(2.4rem, 3.5vw, 3.2rem);
     color: var(--color-secundario);
     letter-spacing: 0.2rem;
+    width: var(--ancho-titulo);        /* Ancho igual al hr */
+    max-width: var(--ancho-maximo-titulo); /* Mismo máximo que hr */
+    margin: 0 auto 2px;                /* Simplificamos márgenes */
+    padding: 0;                        /* Eliminamos padding interno */
+    white-space: pre-line;             /* Permite texto en varias líneas */
+    box-sizing: border-box;            /* Incluye padding/borde en el ancho */
 }
 
+/* Línea divisoria horizontal */
 hr {
-    border: 0.2rem solid var(--color-secundario);
-    margin: 1rem auto;
-    width: 80%;
-    max-width: 30rem;
+    width: var(--ancho-titulo);         
+    max-width: var(--ancho-maximo-titulo);
+    height: 0.2rem;
+    background-color: var(--color-primario);
+    border: none;
+    margin: 0 auto;                    /* Simplificamos márgenes */
+    box-sizing: border-box;            /* Coherencia con h2 */
 }
 
+/* Subtítulo para sector */
 h3 {
     font-size: clamp(1.6rem, 2vw, 1.8rem);
     color: var(--color-texto);
     text-align: center;
 }
 
+/* Variantes de estilos de texto */
 .bold-text {
-    font-weight: 800;
-    color: var(--color-secundario);
+    font-weight: 800;           /* Texto muy grueso */
+    color: var(--color-primario);
 }
 
-/* Sección actividades - Mejorada */
+.normal-text {
+    font-weight: 300;           /* Texto fino */
+    color: var(--color-texto);
+}
+
+/* ===== SECCIÓN ACTIVIDADES =====
+   Estiliza la lista de botones/actividades */
 .actividades {
     text-align: center;
 }
 
+/* Título de la sección actividades */
 .actividades h4 {
     font-size: clamp(1.4rem, 2vw, 1.5rem);
-    color: #555;
+    font-weight: 700;
+    color: var(--color-primario);
     margin-bottom: 1.5rem;
+    text-align: left;
+    max-width: 50rem;           /* Limita el ancho máximo */
+    margin: 0 auto;             /* Centra el elemento */
+    padding: 0 1.5rem;
 }
 
+/* Lista de actividades/botones */
 .actividades ul {
-    list-style: none;
-    display: grid;
-    gap: 1.5rem;
+    font-weight: 300;
+    list-style: none;           /* Elimina los puntos de la lista */
+    display: grid;              /* Organiza los elementos en columna */
+    gap: 1.5rem;                /* Espacio entre botones */
     max-width: 50rem;
     margin: 0 auto;
     padding: 0 1.5rem;
 }
 
-/* Botones accesibles */
+/* ===== BOTONES =====
+   Estilo para los botones de acción */
 .btn {
     display: inline-block;
-    width: 100%;
+    width: 85%;                 /* Ancho relativo al contenedor */
     padding: 1.2rem 2rem;
-    background-color: var(--color-primario);
+    background-color: var(--color-secundario);
     color: white;
-    text-decoration: none;
-    border-radius: 0.8rem;
-    font-weight: 700;
+    text-decoration: none;      /* Elimina el subrayado de los enlaces */
+    border-radius: 0.8rem;      /* Esquinas redondeadas */
+    font-weight: 300;           /* Texto fino */
     transition: var(--transicion-rapida);
     text-transform: uppercase;
     font-size: 1.4rem;
     border: 0.2rem solid transparent;
 }
 
+/* Efectos al pasar el mouse o enfocar */
 .btn:hover,
 .btn:focus {
-    transform: translateY(-0.3rem);
-    background-color: #3454A0;
-    outline: none;
-    box-shadow: 0 0.4rem 1.5rem rgba(0,0,0,0.15);
+    transform: translateY(-0.3rem); /* Eleva ligeramente el botón */
+    background-color: #3454A0;     /* Color más oscuro */
+    outline: none;                 /* Elimina el contorno predeterminado */
+    box-shadow: 0 0.4rem 1.5rem rgba(0,0,0,0.15); /* Agrega sombra */
 }
 
-/* Footer mejorado */
+/* ===== FOOTER =====
+   Pie de página con logo y enlace */
 footer {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Separa los elementos a los extremos */
     align-items: center;
     padding: 2rem 0;
-    margin-top: auto;
+    margin-top: auto;              /* Empuja el footer hacia abajo */
     gap: 2rem;
 }
 
+/* Estilos para listas en el footer */
 footer ul {
     border-left: 0.2rem solid var(--color-texto);
     padding-left: 1rem;
     list-style: none;
 }
 
+/* Contenedor del logo UOCRA */
 .redes-uocra img {
     width: 12rem;
     height: auto;
     display: block;
 }
 
+/* Estilo para sección del enlace web */
 .url {
     padding: 1rem;
     text-align: right;
 }
 
+/* Enlace en el footer */
 .url a {
     color: var(--color-primario);
     text-decoration: none;
     font-weight: 700;
-    font-size: 1.4rem;
+    font-size: 2rem;
     transition: var(--transicion-rapida);
 }
 
+/* Efectos del enlace al pasar el mouse */
 .url a:hover,
 .url a:focus {
     text-decoration: underline;
@@ -185,50 +232,54 @@ footer ul {
     opacity: 0.9;
 }
 
+/* Barra decorativa al final de la página */
 .final-pagina {
     height: 3rem;
     background-color: var(--color-primario);
     margin-top: auto;
 }
 
-/* Media Queries mejorados */
+/* ===== MEDIA QUERIES =====
+   Ajustes para distintos tamaños de pantalla */
+   
+/* Dispositivos móviles y tablets */
 @media (max-width: 768px) {
     .container {
-        width: 94%;
+        width: 94%;             /* Usa más ancho en pantallas pequeñas */
         padding: 1.5rem 0;
     }
     
     .fila-superior {
-        flex-wrap: wrap;
+        flex-wrap: wrap;        /* Permite que los elementos se envuelvan si no caben */
         gap: 1rem;
     }
     
-    .triangulo {
-        border-bottom: 3.5rem solid var(--color-accent); /* Color corregido */
-        margin: 0 1rem;
-    }
-    
     footer {
-        flex-direction: column;
+        flex-direction: column; /* Apila elementos verticalmente */
         text-align: center;
     }
     
     footer ul {
-        border-left: none;
+        border-left: none;      /* Elimina la línea vertical */
         padding-left: 0;
     }
     
     .url {
-        text-align: center;
+        text-align: center;     /* Centra el enlace */
     }
 }
 
+/* Pantallas grandes */
 @media (min-width: 1200px) {
     h1 {
-        letter-spacing: 0.5rem;
+        letter-spacing: 0.5rem; /* Mayor espaciado entre letras */
     }
     
     .actividades ul {
-        max-width: 60rem;
+        max-width: 60rem;       /* Lista más ancha en pantallas grandes */
+    }
+
+    .actividades h4 {
+        padding: 0 1rem;        /* Menos padding a los lados */
     }
 }
