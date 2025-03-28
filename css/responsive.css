@@ -47,3 +47,21 @@
     font-size: 10px;
   }
 }
+
+@media (max-width: 768px) {
+  /* ... (código existente) ... */
+  
+  .empresas-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .empresa-card {
+    padding: 1rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .empresas-grid {
+    grid-template-columns: 1fr;
+  }
+}

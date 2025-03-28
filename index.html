@@ -18,7 +18,7 @@
     <h1>Expo Formación</h1>
   </div>
   
-  <!-- Menú hamburguesa para móviles -->
+  <!-- Menú -->
   <div class="menu-toggle" onclick="toggleMenu()">
     <i class="fas fa-bars"></i>
   </div>
@@ -135,11 +135,12 @@
   <!-- Sección Empresas Participantes -->
   <section id="empresas" class="section">
     <h2>Empresas Participantes</h2>
-    <p>Seleccioná una categoría para explorar las empresas:</p>
+    <p>Estas son todas las empresas que participarán en la exposición. Puedes filtrar por categoría:</p>
     <div class="categorias-buttons">
+      <button class="btn-categoria active" onclick="mostrarEmpresas('todas')">Todas</button>
       <button class="btn-categoria" onclick="mostrarEmpresas('construccion')">Construcción</button>
       <button class="btn-categoria" onclick="mostrarEmpresas('sanitarias')">Sanitarias</button>
-      <button class="btn-categoria" onclick="mostrarEmpresas('gas')">Gas</button>
+      <button class="btn-categoria" onclick="mostrarEmpresas('fundacion')">Fundación</button>
       <button class="btn-categoria" onclick="mostrarEmpresas('electricidad')">Electricidad</button>
       <button class="btn-categoria" onclick="mostrarEmpresas('informatica')">Informática</button>
     </div>
@@ -246,7 +247,7 @@
 <!-- Pie de Página con Redes Sociales -->
 <footer>
   <div class="footer-container">
-    <p>&copy; 2025 Expo Formación</p>
+    <p>&copy; 2025 Expo Formaci</p>
     <div class="social-links">
       <a href="https://www.facebook.com/CFP3UOCRA?locale=es_LA" target="_blank"><i class="fab fa-facebook-f"></i></a>
       <a href="https://www.instagram.com/cific_3?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank"><i class="fab fa-instagram"></i></a>
