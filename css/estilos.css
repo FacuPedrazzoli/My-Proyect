@@ -596,6 +596,14 @@ table.charlas-table {
   /* Asegura que ocupe un buen espacio en pantallas más pequeñas */
 }
 
+/* Ajusta el ancho del formulario para todos los dispositivos */
+.form-container {
+  max-width: 900px;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .form-header {
   text-align: center;
   margin-bottom: 1.5rem;
@@ -652,6 +660,30 @@ table.charlas-table {
 
   .form-row .form-group {
     width: 100%;
+  }
+}
+
+/* Ajustes específicos para dispositivos móviles */
+@media (max-width: 768px) {
+  .form-container {
+    width: 100%;
+    /* Usar el ancho completo disponible */
+    padding: 1rem;
+    /* Reducir el padding para maximizar el espacio */
+    margin: 1rem 0;
+    /* Reducir los márgenes */
+  }
+
+  /* Ajustar el padding de los campos del formulario */
+  .form-group input,
+  .form-group select {
+    padding: 12px 8px;
+    /* Mayor altura pero menor padding horizontal */
+  }
+
+  /* Aumentar tamaño de texto para mejor legibilidad en móviles */
+  .form-group label {
+    font-size: 1.1rem;
   }
 }
 
