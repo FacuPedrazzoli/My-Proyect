@@ -6,10 +6,10 @@ function mostrarSeccion(id) {
   const seccion = document.getElementById(id);
   if (seccion) {
     seccion.classList.add('activa');
-    // Si es la sección de charlas, actualizar contadores y estado
+    // Si es la sección de charlas, actualizar estado y cargar charlas
     if (id === 'charlas') {
-      actualizarContadores();
       actualizarEstadoCharlas();
+      cargarCharlas();  // Cargamos las charlas dinámicamente
     }
     // Si es la sección de empresas, mostrar todas las empresas
     if (id === 'empresas') {
@@ -49,36 +49,58 @@ function actualizarEstadoCharlas() {
   document.getElementById("estadoCharlas").innerText = mensaje;
 }
 
-// Función para inscribirse en una charla desde la sección de charlas
-function inscribirse(charla) {
-  let inscriptos = parseInt(localStorage.getItem(charla)) || 0;
-  inscriptos++;
-  localStorage.setItem(charla, inscriptos);
-  document.getElementById(charla + '-inscriptos').innerText = inscriptos;
-  alert('Te has inscrito a ' + charla + '. ¡Gracias!');
-  actualizarEstadoCharlas();
-}
-
-// Funciones para el popup del formulario de Preinscripción
-function openPopup() {
-  document.getElementById("preinscripcion-popup").style.display = "flex";
-}
-function closePopup() {
-  document.getElementById("preinscripcion-popup").style.display = "none";
-}
+// La función de inscripción directa ya no es necesaria en la tabla de charlas, 
+// pero se mantiene para el formulario de inscripción
+// Función para guardar inscripción desde el formulario
 function guardarInscripcion(event) {
   event.preventDefault();
+
+  const nombre = document.getElementById("nombre").value;
+  const apellido = document.getElementById("apellido").value;
+  const dni = document.getElementById("dni").value;
+  const email = document.getElementById("email").value;
+  const conocio = document.getElementById("conocio").value;
   const charla = document.getElementById("charla").value;
+
+  // Guardamos la información en localStorage
   let inscriptos = parseInt(localStorage.getItem(charla)) || 0;
   inscriptos++;
   localStorage.setItem(charla, inscriptos);
-  const span = document.getElementById(charla + '-inscriptos');
-  if (span) {
-    span.innerText = inscriptos;
-  }
-  alert('Inscripción exitosa a ' + charla + '!');
-  closePopup();
-  actualizarEstadoCharlas();
+
+  // También podemos guardar la información del formulario
+  const inscripcionData = {
+    nombre,
+    apellido,
+    dni,
+    email,
+    conocio,
+    charla,
+    fecha: new Date().toISOString()
+  };
+
+  // Guardamos los datos del inscripto (opcional)
+  let inscripciones = JSON.parse(localStorage.getItem('inscripciones') || '[]');
+  inscripciones.push(inscripcionData);
+  localStorage.setItem('inscripciones', JSON.stringify(inscripciones));
+
+  // Mostramos mensaje de éxito
+  alert('¡Inscripción exitosa a ' + charla + '!');
+
+  // Reseteamos el formulario
+  event.target.reset();
+}
+
+// Función para abrir el formulario de inscripción
+function openPopup() {
+  mostrarSeccion('inscripcion');
+  setTimeout(() => {
+    document.querySelector('.form-container').scrollIntoView({ behavior: 'smooth' });
+  }, 100);
+}
+
+// Función para cerrar el popup (aunque ahora se redirecciona a la sección)
+function closePopup() {
+  // Esta función se mantiene para evitar errores con código existente
 }
 
 // Función para mostrar empresas por categoría
@@ -88,42 +110,42 @@ function mostrarEmpresas(categoria = 'todas') {
     btn.classList.remove('active');
   });
   document.querySelector(`.btn-categoria[onclick="mostrarEmpresas('${categoria}')"]`).classList.add('active');
-  
+
   const empresas = {
     construccion: [
-      { 
-        nombre: 'Durlock', 
-        logo: 'https://durlock.com/resources/img/durlock-logo.png', 
+      {
+        nombre: 'Durlock',
+        logo: 'https://durlock.com/resources/img/durlock-logo.png',
         descripcion: 'El Sistema Durlock® se convirtió en sinónimo de innovación y tecnología, con un amplio portfolio de soluciones para interiores y exteriores cumpliendo con todos los requerimientos técnicos y funcionales que aportan máximo confort y calidad en espacios flexibles con las últimas tendencias de diseño en la arquitectura.',
         url: 'https://durlock.com/'
       },
-      { 
-        nombre: 'Zoloda', 
-        logo: 'https://www.redmax.com.bo/wp-content/uploads/2020/07/Zoloda-logo-web-redmax-768x213.jpg', 
+      {
+        nombre: 'Zoloda',
+        logo: 'https://www.redmax.com.bo/wp-content/uploads/2020/07/Zoloda-logo-web-redmax-768x213.jpg',
         descripcion: 'Nuestra misión es el constante desafío que presenta la renovación tecnológica de la producción, impuesto por un exigente mercado en permanente evolución.',
-        url: 'https://www.zoloda.com.ar' 
+        url: 'https://www.zoloda.com.ar'
       },
-      { 
-        nombre: 'El Galgo', 
-        logo: 'https://http2.mlstatic.com/D_NQ_NP_695083-MLA49785212441_042022-O.webp', 
+      {
+        nombre: 'El Galgo',
+        logo: 'https://http2.mlstatic.com/D_NQ_NP_695083-MLA49785212441_042022-O.webp',
         descripcion: 'El Galgo es la empresa líder en la fabricación y comercialización de herramientas profesionales para el mercado de la pintura en Argentina y una de las más importantes a nivel sudamericano',
-        url: 'https://www.elgalgo.com.ar/' 
+        url: 'https://www.elgalgo.com.ar/'
       },
-      { 
-        nombre: 'Fischer', 
-        logo: 'https://www.schraubenvorteil.de/wp-content/uploads/2023/02/fischer-group-of-companies-logo-vector.png', 
+      {
+        nombre: 'Fischer',
+        logo: 'https://www.schraubenvorteil.de/wp-content/uploads/2023/02/fischer_group_of_companies-logo-vector.png',
         descripcion: 'fischer - Empresa multinacional alemana, líder en la fabricación y distribución de sistemas de fijación para el sector de la construcción y el hobbista.',
         url: 'https://www.fischer.com.ar'
       },
-      { 
-        nombre: 'Mekano', 
-        logo: 'https://mekano.com.ar/images/logo_nav-principal-cabecera.png', 
+      {
+        nombre: 'Mekano',
+        logo: 'https://mekano.com.ar/images/logo_nav-principal-cabecera.png',
         descripcion: 'Inicia sus actividades en el año 1996 dedicándose al diseño de proyectos de ingeniería, la construcción de galpones y naves industriales para luego orientarse a la provisión de estructuras tubulares, andamios, módulos habitacionales móviles y proyectos especiales para la industria',
         url: 'https://mekano.com.ar'
       },
       {
-        nombre: 'Retak', 
-        logo: 'https://retak.com.ar/wp-content/uploads/2024/09/logo_retak_menu.svg', 
+        nombre: 'Retak',
+        logo: 'https://retak.com.ar/wp-content/uploads/2024/09/logo_retak_menu.svg',
         descripcion: 'retak® producido por Ardal S.A., una empresa argentina con núcleo familiar, que desde sus inicios en 1997 enfoca su investigación, desarrollo y tecnologías en la fabricación de ladrillos de Hormigón Celular Curados en Autoclave (HCCA).',
         url: 'https://retak.com.ar/'
       },
@@ -153,61 +175,55 @@ function mostrarEmpresas(categoria = 'todas') {
       }
     ],
     sanitarias: [
-      { 
-        nombre: 'Escorial', 
-        logo: 'https://escorial.com.ar/unregalo/img/logo-escorial.png', 
+      {
+        nombre: 'Escorial',
+        logo: 'https://escorial.com.ar/unregalo/img/logo-escorial.png',
         descripcion: 'Somos una empresa familiar fundada en 1953, dedicada a la fabricación de artefactos de cocción y calentamiento de agua, de alta calidad y a precio accesible para las familias argentinas.',
         url: 'https://www.escorial.com.ar/'
       },
-      { 
-        nombre: 'Rotoplas', 
-        logo: 'https://upload.wikimedia.org/wikipedia/commons/a/a0/Logo_de_Rotoplas.svg', 
+      {
+        nombre: 'Rotoplas',
+        logo: 'https://upload.wikimedia.org/wikipedia/commons/a/a0/Logo_de_Rotoplas.svg',
         descripcion: 'Somos una compañía líder, de origen mexicano, con una tradición que nos impulsa a crecer sostenidamente en México y a traspasar fronteras para llevar nuestras soluciones de almacenamiento, conducción, purificación y tratamiento del agua a otros países. Nuestra pasión es innovar y desarrollar nuevas',
         url: 'https://rotoplas.com.ar'
       },
-      { 
+      {
         nombre: 'Grundfos',
-        logo:'https://1000marcas.net/wp-content/uploads/2022/06/Grundfos-Logo.png',
+        logo: 'https://1000marcas.net/wp-content/uploads/2022/06/Grundfos-Logo.png',
         descripcion: 'No somos solo un fabricante de bombas de agua. Creemos que cada gota encierra infinitas posibilidades y que el agua tiene el poder de cambiar el mundo.',
         url: 'https://www.grundfos.com/ar'
-      },
-      {
-        nombre: 'Consejo de bomberos',
-        logo: 'https://www.bomberosra.org.ar/wp-content/uploads/2023/06/logo-CNB.jpg.png',
-        descripcion: 'En la Argentina el principal brazo operativo de Protección Civil, prestando de manera profesional y voluntaria el servicio de seguridad siniestral en el 80% del territorio nacional y para más de 46 millones de argentinos.',
-        url: 'https://www.bomberosra.org.ar'
       }
     ],
     electricidad: [
-      { 
-        nombre: 'Conextube', 
-        logo: 'https://www.conextube.com/assets/imgs/logo-conextube-light-ss.svg', 
+      {
+        nombre: 'Conextube',
+        logo: 'https://www.conextube.com/assets/imgs/logo-conextube-light-ss.svg',
         descripcion: 'Somos una empresa argentina, de capital local nacida en 1979. Con mano de obra especializada en el diseño, desarrollo y fabricación de productos para instalaciones eléctricas SEGURAS.',
         url: 'https://www.conextube.com/'
       },
-      { 
-        nombre: 'Scheinder Electric', 
-        logo: 'https://www.logo.wine/a/logo/Schneider_Electric/Schneider_Electric-Logo.wine.svg', 
+      {
+        nombre: 'Scheinder Electric',
+        logo: 'https://www.logo.wine/a/logo/Schneider_Electric/Schneider_Electric-Logo.wine.svg',
         descripcion: 'Creamos Impacto empoderando a todos para aprovechar al máximo nuestra energía y recursos, uniendo el progreso y la sostenibilidad.Nuestra misión es ser el socio de confianza en Sostenibilidad y Eficiencia.',
         url: 'https://www.se.com/'
       },
-      { 
-        nombre: 'Gralf', 
-        logo:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOqscXAy-E8-bqnun_6EhVQ7ydWj7_xj2SzA&s', 
+      {
+        nombre: 'Gralf',
+        logo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOqscXAy-E8-bqnun_6EhVQ7ydWj7_xj2SzA&s',
         descripcion: 'Gralf es una marca que comercializa y distribuye instrumentos de medición y control eléctrico. Nuestro objetivo es brindar soluciones de calidad y confiabilidad a nuestros clientes.',
         url: 'https://www.gralf.com.ar'
       },
-      { 
-        nombre: 'Micro control', 
-        logo:'https://microcontrol.com.ar/storage/2023/11/isologo-microcontrol-180x80-1.png', 
+      {
+        nombre: 'Micro control',
+        logo: 'https://microcontrol.com.ar/storage/2023/11/isologo-microcontrol-180x80-1.png',
         descripcion: 'Desde 1979 brindando soluciones prácticas e innovadoras en canalización y conectividad eléctrica.',
         url: 'https://microcontrol.com.ar/'
       }
     ],
     informatica: [
-      { 
-        nombre: 'Genrod', 
-        logo:'https://genrod.com.ar/img/logo-genrod-footer-tagline.svg', 
+      {
+        nombre: 'Genrod',
+        logo: 'https://genrod.com.ar/img/logo-genrod-footer-tagline.svg',
         descripcion: 'Siempre privilegiando la evolución tecnológica, la mejora continua de los estándares de calidad, el abastecimiento en tiempo justo y la máxima atención profesional a cada uno de sus clientes.',
         url: 'https://genrod.com.ar'
       },
@@ -216,15 +232,9 @@ function mostrarEmpresas(categoria = 'todas') {
         logo: 'https://3dinsumos.com.ar/img/Logo.png',
         descripcion: 'Somos una empresa dedicada a satisfacer los requerimientos del usuario de electrónica e impresoras 3D.',
         url: 'https://3dinsumos.com.ar/'
-      },
-      {
-        nombre: 'Inet',
-        logo: 'https://rfietp.educacion.gob.ar/imagenes/logo-inet.png',
-        descripcion: 'El Instituto Nacional de Educación Tecnológica (INET) es el organismo del Ministerio de Capital Humano de la Nación, dependiente de la Secretaría de Educación de la Nación, que tiene a su cargo la coordinación de la aplicación de las políticas públicas relativas a la Educación Técnico Profesional (ETP) en los niveles Secundario Técnico, Superior Técnico y Formación Profesional.',
-        url: 'https://www.inet.edu.ar/'
       }
     ],
-    fundacion: [
+    instituciones: [
       {
         nombre: 'Fundación UOCRA',
         logo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQriRNbgrf454MsqjE0gXKp86GTp8_vLhLacg&s',
@@ -248,18 +258,30 @@ function mostrarEmpresas(categoria = 'todas') {
         logo: 'https://www.construirtv.com/wp-content/uploads/2017/09/logo-ctv.jpg',
         descripcion: 'Somos un canal temático que propone una mirada innovadora y positiva acerca del mundo del trabajo y de los trabajadores, a través de contenidos multiplataforma de calidad internacional.',
         url: 'https://www.construirtv.com/'
+      },
+      {
+        nombre: 'Consejo de bomberos',
+        logo: 'https://www.bomberosra.org.ar/wp-content/uploads/2023/06/logo-CNB.jpg.png',
+        descripcion: 'En la Argentina el principal brazo operativo de Protección Civil, prestando de manera profesional y voluntaria el servicio de seguridad siniestral en el 80% del territorio nacional y para más de 46 millones de argentinos.',
+        url: 'https://www.bomberosra.org.ar'
+      },
+      {
+        nombre: 'Inet',
+        logo: 'https://rfietp.educacion.gob.ar/imagenes/logo-inet.png',
+        descripcion: 'El Instituto Nacional de Educación Tecnológica (INET) es el organismo del Ministerio de Capital Humano de la Nación, dependiente de la Secretaría de Educación de la Nación, que tiene a su cargo la coordinación de la aplicación de las políticas públicas relativas a la Educación Técnico Profesional (ETP) en los niveles Secundario Técnico, Superior Técnico y Formación Profesional.',
+        url: 'https://www.inet.edu.ar/'
       }
     ]
   };
-  
+
   const contenedor = document.getElementById("empresas-lista");
   contenedor.innerHTML = "";
-  
+
   // Función para crear una tarjeta de empresa
   function crearTarjetaEmpresa(empresa) {
     const card = document.createElement('div');
     card.className = 'empresa-card';
-    
+
     // Añadir enlace si existe una URL
     const contenidoTarjeta = `
       <img src="${empresa.logo}" alt="Logo de ${empresa.nombre}" class="empresa-logo" />
@@ -267,20 +289,20 @@ function mostrarEmpresas(categoria = 'todas') {
       <p>${empresa.descripcion}</p>
       ${empresa.url ? `<a href="${empresa.url}" target="_blank" class="btn-visitar">Visitar sitio web</a>` : ''}
     `;
-    
+
     card.innerHTML = contenidoTarjeta;
-    
+
     // Si hay URL pero prefieres que toda la tarjeta sea clickeable
     if (empresa.url) {
       card.style.cursor = 'pointer';
-      card.addEventListener('click', function() {
+      card.addEventListener('click', function () {
         window.open(empresa.url, '_blank');
       });
     }
-    
+
     return card;
   }
-  
+
   // Si selecciona "todas", mostrar todas las empresas de todas las categorías
   if (categoria === 'todas') {
     Object.values(empresas).forEach(empresasCategoria => {
@@ -296,8 +318,70 @@ function mostrarEmpresas(categoria = 'todas') {
   }
 }
 
+// Función para cargar las charlas dinámicamente
+function cargarCharlas() {
+  const charlas = [
+    {
+      horario: "10:00 - 11:30",
+      titulo: "Nuevas tecnologías en la construcción",
+      empresa: "Constructora Sur",
+      ubicacion: "Aula 1 - 101"
+    },
+    {
+      horario: "11:30 - 13:00",
+      titulo: "Instalación de redes sanitarias seguras",
+      empresa: "Agua Clara",
+      ubicacion: "Aula 2 - 204"
+    },
+    {
+      horario: "14:00 - 15:30",
+      titulo: "Eficiencia energética en edificios",
+      empresa: "EcoBuilding",
+      ubicacion: "Auditorio Principal"
+    },
+    {
+      horario: "15:30 - 17:00",
+      titulo: "Normativas actuales en instalaciones eléctricas",
+      empresa: "Schneider Electric",
+      ubicacion: "Aula 3 - 305"
+    },
+    {
+      horario: "17:00 - 18:30",
+      titulo: "Diseño de estructuras antisísmicas",
+      empresa: "Ingeniería Estructural SA",
+      ubicacion: "Aula 2 - 204"
+    }
+  ];
+
+  const tablaCuerpo = document.getElementById("charlas-lista");
+  tablaCuerpo.innerHTML = "";
+
+  charlas.forEach(charla => {
+    const fila = document.createElement("tr");
+
+    const celdaHorario = document.createElement("td");
+    celdaHorario.textContent = charla.horario;
+
+    const celdaTitulo = document.createElement("td");
+    celdaTitulo.textContent = charla.titulo;
+
+    const celdaEmpresa = document.createElement("td");
+    celdaEmpresa.textContent = charla.empresa;
+
+    const celdaUbicacion = document.createElement("td");
+    celdaUbicacion.textContent = charla.ubicacion;
+
+    fila.appendChild(celdaHorario);
+    fila.appendChild(celdaTitulo);
+    fila.appendChild(celdaEmpresa);
+    fila.appendChild(celdaUbicacion);
+
+    tablaCuerpo.appendChild(fila);
+  });
+}
+
 // Al cargar la página, mostrar la sección Inicio
-window.onload = function() {
+window.onload = function () {
   mostrarSeccion('inicio');
 };
 
