@@ -589,11 +589,9 @@ table.charlas-table {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   margin: 1.5rem 0;
   max-width: 900px;
-  /* Aumentado de 800px o el valor original */
   margin-left: auto;
   margin-right: auto;
   width: 90%;
-  /* Asegura que ocupe un buen espacio en pantallas más pequeñas */
 }
 
 /* Ajusta el ancho del formulario para todos los dispositivos */
