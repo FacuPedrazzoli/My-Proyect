@@ -23,7 +23,7 @@
     </div>
 
     <!-- Menú -->
-    <div class="menu-toggle" onclick="toggleMenu()">
+    <div class="menu-toggle" onclick="alternarMenu()">
       <i class="fas fa-bars"></i>
     </div>
   </header>
@@ -48,7 +48,7 @@
       </div>
       <div class="cta-container">
         <p>¿Interesado en participar? ¡Inscríbete ahora!</p>
-        <button onclick="openPopup()" class="btn-primary btn-highlighted">
+        <button onclick="mostrarFormulario()" class="btn-primary btn-highlighted">
           <i class="fas fa-sign-in-alt"></i> Inscribirme Ahora
         </button>
       </div>
@@ -146,7 +146,7 @@
           <i class="fas fa-user-plus"></i>
           <h3>Formulario de Preinscripción</h3>
         </div>
-        <form onsubmit="guardarInscripcion(event)">
+        <form id="inscripcionForm">
           <div class="form-row">
             <div class="form-group">
               <label for="nombre">Nombre:</label>
@@ -184,8 +184,7 @@
             <div class="form-group">
               <label for="charla">Selecciona la charla:</label>
               <select id="charla" required>
-                <option value="charla1">Charla 1 - Nuevas tecnologías en la construcción</option>
-                <option value="charla2">Charla 2 - Redes sanitarias seguras</option>
+                <!-- Se cargará dinámicamente -->
               </select>
             </div>
           </div>
@@ -210,37 +209,12 @@
     <!-- Sección Muestras Abiertas -->
     <section id="muestras" class="section">
       <h2>Muestras Abiertas</h2>
-      <p>Consulta los stands y ubicaciones de las empresas participantes.</p>
-      <div class="stands-grid">
-        <div class="stand-item">
-          <div class="stand-number">1</div>
-          <div class="stand-info">
-            <h4>Empresa A</h4>
-            <p>Piso 1, Hall principal</p>
-          </div>
-        </div>
-        <div class="stand-item">
-          <div class="stand-number">2</div>
-          <div class="stand-info">
-            <h4>Empresa B</h4>
-            <p>Piso 2, Pasillo central</p>
-          </div>
-        </div>
-        <div class="stand-item">
-          <div class="stand-number">3</div>
-          <div class="stand-info">
-            <h4>Empresa C</h4>
-            <p>Piso 3, Aula 301</p>
-          </div>
-        </div>
-        <div class="stand-item">
-          <div class="stand-number">4</div>
-          <div class="stand-info">
-            <h4>Empresa D</h4>
-            <p>Piso 1, Patio Exterior</p>
-          </div>
-        </div>
+      <p>Consulta los stands y ubicaciones de los rubros participantes.</p>
+
+      <div id="stands-container" class="stands-grid">
+        <!-- Las muestras se cargarán dinámicamente desde el controlador -->
       </div>
+
       <button class="btn-volver" onclick="mostrarSeccion('inicio')">Volver al Inicio</button>
     </section>
   </div>

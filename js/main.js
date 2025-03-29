@@ -1,122 +1,11 @@
-// Función para mostrar una sección y ocultar las demás
-function mostrarSeccion(id) {
-  document.querySelectorAll('.section').forEach(seccion => {
-    seccion.classList.remove('activa');
-  });
-  const seccion = document.getElementById(id);
-  if (seccion) {
-    seccion.classList.add('activa');
-    // Si es la sección de charlas, actualizar estado y cargar charlas
-    if (id === 'charlas') {
-      actualizarEstadoCharlas();
-      cargarCharlas();  // Cargamos las charlas dinámicamente
-    }
-    // Si es la sección de empresas, mostrar todas las empresas
-    if (id === 'empresas') {
-      mostrarEmpresas('todas');
-    }
-  }
-}
-
-// Actualizar contadores de inscriptos en charlas
-function actualizarContadores() {
-  ['charla1', 'charla2'].forEach(charla => {
-    const span = document.getElementById(charla + '-inscriptos');
-    if (span) {
-      span.innerText = localStorage.getItem(charla) || 0;
-    }
-  });
-}
-
-// Actualizar estado de las charlas según la hora actual
-function actualizarEstadoCharlas() {
-  var ahora = new Date();
-  var hora = ahora.getHours();
-  var minuto = ahora.getMinutes();
-  var mensaje = "";
-  // Ejemplo de horarios:
-  // Charla 1: 10:00 - 11:30
-  // Charla 2: 11:30 - 13:00
-  if (hora < 10) {
-    mensaje = "Las charlas aún no han comenzado.";
-  } else if (hora < 11 || (hora === 11 && minuto < 30)) {
-    mensaje = "La charla 'Nuevas tecnologías en la construcción' está en curso o por empezar.";
-  } else if (hora < 13) {
-    mensaje = "La charla 'Instalación de redes sanitarias seguras' está en curso o por empezar.";
-  } else {
-    mensaje = "Las charlas han finalizado por hoy.";
-  }
-  document.getElementById("estadoCharlas").innerText = mensaje;
-}
-
-// La función de inscripción directa ya no es necesaria en la tabla de charlas, 
-// pero se mantiene para el formulario de inscripción
-// Función para guardar inscripción desde el formulario
-function guardarInscripcion(event) {
-  event.preventDefault();
-
-  const nombre = document.getElementById("nombre").value;
-  const apellido = document.getElementById("apellido").value;
-  const dni = document.getElementById("dni").value;
-  const email = document.getElementById("email").value;
-  const conocio = document.getElementById("conocio").value;
-  const charla = document.getElementById("charla").value;
-
-  // Guardamos la información en localStorage
-  let inscriptos = parseInt(localStorage.getItem(charla)) || 0;
-  inscriptos++;
-  localStorage.setItem(charla, inscriptos);
-
-  // También podemos guardar la información del formulario
-  const inscripcionData = {
-    nombre,
-    apellido,
-    dni,
-    email,
-    conocio,
-    charla,
-    fecha: new Date().toISOString()
-  };
-
-  // Guardamos los datos del inscripto (opcional)
-  let inscripciones = JSON.parse(localStorage.getItem('inscripciones') || '[]');
-  inscripciones.push(inscripcionData);
-  localStorage.setItem('inscripciones', JSON.stringify(inscripciones));
-
-  // Mostramos mensaje de éxito
-  alert('¡Inscripción exitosa a ' + charla + '!');
-
-  // Reseteamos el formulario
-  event.target.reset();
-}
-
-// Función para abrir el formulario de inscripción
-function openPopup() {
-  mostrarSeccion('inscripcion');
-  setTimeout(() => {
-    document.querySelector('.form-container').scrollIntoView({ behavior: 'smooth' });
-  }, 100);
-}
-
-// Función para cerrar el popup (aunque ahora se redirecciona a la sección)
-function closePopup() {
-  // Esta función se mantiene para evitar errores con código existente
-}
-
-// Función para mostrar empresas por categoría
-function mostrarEmpresas(categoria = 'todas') {
-  // Resaltar el botón activo
-  document.querySelectorAll('.btn-categoria').forEach(btn => {
-    btn.classList.remove('active');
-  });
-  document.querySelector(`.btn-categoria[onclick="mostrarEmpresas('${categoria}')"]`).classList.add('active');
-
-  const empresas = {
+// Constantes y datos de la aplicación
+const DATOS = {
+  empresas: {
     construccion: [
       {
         nombre: 'Durlock',
         logo: 'https://durlock.com/resources/img/durlock-logo.png',
-        descripcion: 'El Sistema Durlock® se convirtió en sinónimo de innovación y tecnología, con un amplio portfolio de soluciones para interiores y exteriores cumpliendo con todos los requerimientos técnicos y funcionales que aportan máximo confort y calidad en espacios flexibles con las últimas tendencias de diseño en la arquitectura.',
+        descripcion: 'El Sistema Durlock® se convirtió en sinónimo de innovación y tecnología, con un amplio portfolio de soluciones para interiores y exteriores.',
         url: 'https://durlock.com/'
       },
       {
@@ -133,7 +22,7 @@ function mostrarEmpresas(categoria = 'todas') {
       },
       {
         nombre: 'Fischer',
-        logo: 'https://www.schraubenvorteil.de/wp-content/uploads/2023/02/fischer_group_of_companies-logo-vector.png',
+        logo: 'https://www.fischer.com.ar/-/media/system/user-defined/og-images/fischer-og-image.png',
         descripcion: 'fischer - Empresa multinacional alemana, líder en la fabricación y distribución de sistemas de fijación para el sector de la construcción y el hobbista.',
         url: 'https://www.fischer.com.ar'
       },
@@ -272,55 +161,8 @@ function mostrarEmpresas(categoria = 'todas') {
         url: 'https://www.inet.edu.ar/'
       }
     ]
-  };
-
-  const contenedor = document.getElementById("empresas-lista");
-  contenedor.innerHTML = "";
-
-  // Función para crear una tarjeta de empresa
-  function crearTarjetaEmpresa(empresa) {
-    const card = document.createElement('div');
-    card.className = 'empresa-card';
-
-    // Añadir enlace si existe una URL
-    const contenidoTarjeta = `
-      <img src="${empresa.logo}" alt="Logo de ${empresa.nombre}" class="empresa-logo" />
-      <p><strong>${empresa.nombre}</strong></p>
-      <p>${empresa.descripcion}</p>
-      ${empresa.url ? `<a href="${empresa.url}" target="_blank" class="btn-visitar">Visitar sitio web</a>` : ''}
-    `;
-
-    card.innerHTML = contenidoTarjeta;
-
-    // Si hay URL pero prefieres que toda la tarjeta sea clickeable
-    if (empresa.url) {
-      card.style.cursor = 'pointer';
-      card.addEventListener('click', function () {
-        window.open(empresa.url, '_blank');
-      });
-    }
-
-    return card;
-  }
-
-  // Si selecciona "todas", mostrar todas las empresas de todas las categorías
-  if (categoria === 'todas') {
-    Object.values(empresas).forEach(empresasCategoria => {
-      empresasCategoria.forEach(empresa => {
-        contenedor.appendChild(crearTarjetaEmpresa(empresa));
-      });
-    });
-  } else {
-    // Mostrar solo empresas de la categoría seleccionada
-    (empresas[categoria] || []).forEach(empresa => {
-      contenedor.appendChild(crearTarjetaEmpresa(empresa));
-    });
-  }
-}
-
-// Función para cargar las charlas dinámicamente
-function cargarCharlas() {
-  const charlas = [
+  },
+  charlas: [
     {
       horario: "10:00 - 11:30",
       titulo: "Nuevas tecnologías en la construcción",
@@ -351,42 +193,435 @@ function cargarCharlas() {
       empresa: "Ingeniería Estructural SA",
       ubicacion: "Aula 2 - 204"
     }
-  ];
-
-  const tablaCuerpo = document.getElementById("charlas-lista");
-  tablaCuerpo.innerHTML = "";
-
-  charlas.forEach(charla => {
-    const fila = document.createElement("tr");
-
-    const celdaHorario = document.createElement("td");
-    celdaHorario.textContent = charla.horario;
-
-    const celdaTitulo = document.createElement("td");
-    celdaTitulo.textContent = charla.titulo;
-
-    const celdaEmpresa = document.createElement("td");
-    celdaEmpresa.textContent = charla.empresa;
-
-    const celdaUbicacion = document.createElement("td");
-    celdaUbicacion.textContent = charla.ubicacion;
-
-    fila.appendChild(celdaHorario);
-    fila.appendChild(celdaTitulo);
-    fila.appendChild(celdaEmpresa);
-    fila.appendChild(celdaUbicacion);
-
-    tablaCuerpo.appendChild(fila);
-  });
-}
-
-// Al cargar la página, mostrar la sección Inicio
-window.onload = function () {
-  mostrarSeccion('inicio');
+  ],
+  // Agregar los datos de muestras/stands
+  muestras: [
+    {
+      numero: 1,
+      muestra: "Modelado e impresion 3D",
+      ubicacion: "Piso 1, Hall principal"
+    },
+    {
+      numero: 2,
+      muestra: "Instalacion de ascensores",
+      ubicacion: "Piso 1, Sector A"
+    },
+    {
+      numero: 3,
+      muestra: "Soladura",
+      ubicacion: "Piso 1, Sector B"
+    },
+    {
+      numero: 4,
+      muestra: "Gasista domiciliario",
+      ubicacion: "Piso 1, Sector C"
+    },
+    {
+      numero: 5,
+      muestra: "Cerrajería",
+      ubicacion: "Piso 2, Pasillo central"
+    },
+    {
+      numero: 6,
+      muestra: "Instalador sanitarista",
+      ubicacion: "Piso 2, Sector D"
+    },
+    {
+      numero: 7,
+      muestra: "Equipos de climatizacion",
+      ubicacion: "Piso 2, Sector E"
+    },
+    {
+      numero: 8,
+      muestra: "Automatizacion",
+      ubicacion: "Piso 2, Patio Exterior"
+    },
+    {
+      numero: 9,
+      muestra: "Electricidad en inmuebles",
+      ubicacion: "Piso 3, Aula 301"
+    },
+    {
+      numero: 10,
+      muestra: "Electricista industrial",
+      ubicacion: "Piso 3, Hall central"
+    },
+    {
+      numero: 11,
+      muestra: "Energias renovables",
+      ubicacion: "Piso 3, Aula 302"
+    },
+    {
+      numero: 12,
+      muestra: "Electricista domiciliario",
+      ubicacion: "Piso 3, Aula 303"
+    },
+  ]
 };
 
-// Función para alternar el menú en móviles
-function toggleMenu() {
-  const nav = document.getElementById('main-nav');
-  nav.classList.toggle('active');
-}
+// Utilidades
+const utilidades = {
+  // Selector DOM optimizado con cache
+  obtenerElemento(selector) {
+    return document.querySelector(selector);
+  },
+
+  // Selector múltiple DOM optimizado con cache
+  obtenerElementos(selector) {
+    return document.querySelectorAll(selector);
+  },
+
+  // Genera un UUID v4
+  generarUUID() {
+    var d = new Date().getTime();
+    var d2 = ((typeof performance !== 'undefined') && performance.now && (performance.now() * 1000)) || 0;
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = Math.random() * 16;
+      if (d > 0) {
+        r = (d + r) % 16 | 0;
+        d = Math.floor(d / 16);
+      } else {
+        r = (d2 + r) % 16 | 0;
+        d2 = Math.floor(d2 / 16);
+      }
+      return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+  },
+
+  // Guarda en localStorage
+  guardarDatos(clave, datos) {
+    localStorage.setItem(clave, JSON.stringify(datos));
+  },
+
+  // Recupera de localStorage
+  recuperarDatos(clave, valorPredeterminado = []) {
+    const datos = localStorage.getItem(clave);
+    return datos ? JSON.parse(datos) : valorPredeterminado;
+  }
+};
+
+// Controlador de secciones
+const controladorSecciones = {
+  // Muestra una sección y oculta las demás
+  mostrarSeccion(id) {
+    utilidades.obtenerElementos('.section').forEach(section => {
+      section.classList.remove('activa');
+    });
+
+    const seccion = utilidades.obtenerElemento(`#${id}`);
+    if (!seccion) return;
+
+    seccion.classList.add('activa');
+
+    // Acciones específicas por sección
+    if (id === 'charlas') {
+      this.actualizarEstadoCharlas();
+    } else if (id === 'empresas') {
+      controladorEmpresas.mostrarEmpresasPorCategoria('todas');
+    } else if (id === 'muestras') {
+      controladorMuestras.actualizarMuestras();
+    }
+  },
+
+  // Actualiza el estado de las charlas según la hora actual
+  actualizarEstadoCharlas() {
+    const ahora = new Date();
+    const hora = ahora.getHours();
+    const minuto = ahora.getMinutes();
+
+    let mensaje = "";
+
+    if (hora < 10) {
+      mensaje = "Las charlas aún no han comenzado.";
+    } else if (hora < 11 || (hora === 11 && minuto < 30)) {
+      mensaje = "La charla 'Nuevas tecnologías en la construcción' está en curso o por empezar.";
+    } else if (hora < 13) {
+      mensaje = "La charla 'Instalación de redes sanitarias seguras' está en curso o por empezar.";
+    } else {
+      mensaje = "Las charlas han finalizado por hoy.";
+    }
+
+    utilidades.obtenerElemento("#estadoCharlas").innerText = mensaje;
+  },
+
+  // Muestra el formulario y hace scroll hacia él
+  mostrarFormulario() {
+    this.mostrarSeccion('inscripcion');
+    setTimeout(() => {
+      utilidades.obtenerElemento('.form-container').scrollIntoView({ behavior: 'smooth' });
+    }, 10);
+  },
+
+  // Alterna el menú en dispositivos móviles
+  alternarMenu() {
+    utilidades.obtenerElemento("#main-nav").classList.toggle('active');
+  }
+};
+
+// Controlador de charlas
+const controladorCharlas = {
+  // Inicializa y carga las charlas
+  inicializar() {
+    // Verificar si ya tenemos charlas guardadas
+    let charlas = utilidades.recuperarDatos('charlas');
+
+    if (charlas.length === 0) {
+      // Agregar IDs a las charlas predefinidas
+      charlas = DATOS.charlas.map(charla => ({
+        ...charla,
+        id: utilidades.generarUUID()
+      }));
+
+      // Guardar en localStorage
+      utilidades.guardarDatos('charlas', charlas);
+    }
+
+    this.actualizarInterfazCharlas(charlas);
+    return charlas;
+  },
+
+  // Actualiza toda la UI relacionada con charlas
+  actualizarInterfazCharlas(charlas) {
+    this.actualizarTablaCharlas(charlas);
+    this.actualizarSelectoresCharlas(charlas);
+    this.actualizarContadoresInscriptos();
+  },
+
+  // Actualiza la tabla de charlas
+  actualizarTablaCharlas(charlas) {
+    const cuerpoTabla = utilidades.obtenerElemento("#charlas-lista");
+    if (!cuerpoTabla) return;
+
+    cuerpoTabla.innerHTML = "";
+
+    charlas.forEach(charla => {
+      const fila = document.createElement("tr");
+
+      ["horario", "titulo", "empresa", "ubicacion"].forEach(campo => {
+        const celda = document.createElement("td");
+        celda.textContent = charla[campo];
+        fila.appendChild(celda);
+      });
+
+      cuerpoTabla.appendChild(fila);
+    });
+  },
+
+  // Actualiza los selectores de charlas en formularios
+  actualizarSelectoresCharlas(charlas) {
+    const selectores = utilidades.obtenerElementos('select[id="charla"]');
+
+    selectores.forEach(selector => {
+      const valorActual = selector.value;
+      selector.innerHTML = '';
+
+      // Opción por defecto
+      const opcionPredeterminada = document.createElement('option');
+      opcionPredeterminada.value = '';
+      opcionPredeterminada.textContent = 'Selecciona una charla';
+      opcionPredeterminada.selected = true;
+      opcionPredeterminada.disabled = true;
+      selector.appendChild(opcionPredeterminada);
+
+      // Opciones de charlas
+      charlas.forEach(charla => {
+        const opcion = document.createElement('option');
+        opcion.value = charla.id;
+        opcion.textContent = `${charla.horario} - ${charla.titulo}`;
+        selector.appendChild(opcion);
+      });
+
+      // Restaurar selección previa si existe
+      if (valorActual) {
+        selector.value = valorActual;
+      }
+    });
+  },
+
+  // Actualiza contadores de inscriptos
+  actualizarContadoresInscriptos() {
+    const charlas = utilidades.recuperarDatos('charlas', []);
+
+    charlas.forEach(charla => {
+      const contador = utilidades.obtenerElemento(`#${charla.id}-inscriptos`);
+      if (contador) {
+        contador.innerText = localStorage.getItem(charla.id) || '0';
+      }
+    });
+  }
+};
+
+// Controlador de empresas
+const controladorEmpresas = {
+  // Muestra empresas por categoría
+  mostrarEmpresasPorCategoria(categoria = 'todas') {
+    // Actualizar botón activo
+    utilidades.obtenerElementos('.btn-categoria').forEach(boton => {
+      boton.classList.remove('active');
+    });
+
+    const botonActivo = utilidades.obtenerElemento(`.btn-categoria[onclick="mostrarEmpresas('${categoria}')"]`);
+    if (botonActivo) {
+      botonActivo.classList.add('active');
+    }
+
+    const contenedor = utilidades.obtenerElemento("#empresas-lista");
+    if (!contenedor) return;
+
+    contenedor.innerHTML = "";
+
+    if (categoria === 'todas') {
+      // Mostrar todas las empresas
+      Object.values(DATOS.empresas).forEach(empresasCategoria => {
+        empresasCategoria.forEach(empresa => {
+          contenedor.appendChild(this.crearTarjetaEmpresa(empresa));
+        });
+      });
+    } else {
+      // Mostrar por categoría específica
+      const empresas = DATOS.empresas[categoria] || [];
+      empresas.forEach(empresa => {
+        contenedor.appendChild(this.crearTarjetaEmpresa(empresa));
+      });
+    }
+  },
+
+  // Crea una tarjeta de empresa
+  crearTarjetaEmpresa(empresa) {
+    const tarjeta = document.createElement('div');
+    tarjeta.className = 'empresa-card';
+
+    tarjeta.innerHTML = `
+      <img src="${empresa.logo}" alt="Logo de ${empresa.nombre}" class="empresa-logo" />
+      <p><strong>${empresa.nombre}</strong></p>
+      <p>${empresa.descripcion}</p>
+      ${empresa.url ? `<a href="${empresa.url}" target="_blank" class="btn-visitar">Visitar sitio web</a>` : ''}
+    `;
+
+    // Hacer la tarjeta clickeable si hay URL
+    if (empresa.url) {
+      tarjeta.style.cursor = 'pointer';
+      tarjeta.addEventListener('click', () => window.open(empresa.url, '_blank'));
+    }
+
+    return tarjeta;
+  }
+};
+
+// Controlador de inscripciones
+const controladorInscripciones = {
+  // Maneja la inscripción desde el formulario
+  procesarInscripcion(evento) {
+    evento.preventDefault();
+
+    // Recoger datos del formulario
+    const datosFormulario = {
+      nombre: utilidades.obtenerElemento("#nombre").value,
+      apellido: utilidades.obtenerElemento("#apellido").value,
+      dni: utilidades.obtenerElemento("#dni").value,
+      email: utilidades.obtenerElemento("#email").value,
+      conocio: utilidades.obtenerElemento("#conocio").value,
+      charlaId: utilidades.obtenerElemento("#charla").value
+    };
+
+    // Validación básica
+    if (!datosFormulario.charlaId) {
+      alert("Por favor seleccione una charla");
+      return;
+    }
+
+    // Incrementar contador de inscriptos
+    let inscriptos = parseInt(localStorage.getItem(datosFormulario.charlaId)) || 0;
+    inscriptos++;
+    localStorage.setItem(datosFormulario.charlaId, inscriptos);
+
+    // Crear y guardar la inscripción
+    const inscripcion = {
+      id: utilidades.generarUUID(),
+      ...datosFormulario,
+      fecha: new Date().toISOString()
+    };
+
+    // Guardar en localStorage
+    const inscripciones = utilidades.recuperarDatos('inscripciones', []);
+    inscripciones.push(inscripcion);
+    utilidades.guardarDatos('inscripciones', inscripciones);
+
+    // Mostrar mensaje de éxito
+    const charlas = utilidades.recuperarDatos('charlas', []);
+    const charla = charlas.find(c => c.id === datosFormulario.charlaId);
+
+    if (charla) {
+      alert(`¡Inscripción exitosa a la charla "${charla.titulo}"!`);
+    }
+
+    // Actualizar contadores
+    controladorCharlas.actualizarContadoresInscriptos();
+
+    // Resetear formulario
+    evento.target.reset();
+  }
+};
+
+// Controlador de muestras/stands
+const controladorMuestras = {
+  // Inicializar y mostrar muestras/stands
+  inicializar() {
+    this.actualizarMuestras();
+  },
+
+  // Actualiza la visualización de muestras
+  actualizarMuestras() {
+    const contenedorStands = utilidades.obtenerElemento("#stands-container");
+    if (!contenedorStands) return;
+
+    contenedorStands.innerHTML = "";
+
+    // Crear elementos HTML para cada stand
+    DATOS.muestras.forEach(stand => {
+      const standElement = this.crearElementoStand(stand);
+      contenedorStands.appendChild(standElement);
+    });
+  },
+
+  // Crea un elemento HTML para un stand
+  crearElementoStand(stand) {
+    const standItem = document.createElement('div');
+    standItem.className = 'stand-item';
+
+    standItem.innerHTML = `
+      <div class="stand-number">${stand.numero}</div>
+      <div class="stand-info">
+        <h4>${stand.muestra}</h4>
+        <p>${stand.ubicacion}</p>
+      </div>
+    `;
+
+    return standItem;
+  }
+};
+
+// Inicializar la aplicación
+window.onload = function () {
+  // Inicializar charlas
+  controladorCharlas.inicializar();
+
+  // Inicializar muestras
+  controladorMuestras.inicializar();
+
+  // Mostrar sección inicial
+  controladorSecciones.mostrarSeccion('inicio');
+
+  // Configurar event listeners
+  const formularioInscripcion = utilidades.obtenerElemento("#inscripcionForm");
+  if (formularioInscripcion) {
+    formularioInscripcion.addEventListener('submit', evento =>
+      controladorInscripciones.procesarInscripcion(evento));
+  }
+};
+
+// Exponer funciones al ámbito global para uso en HTML
+window.mostrarSeccion = id => controladorSecciones.mostrarSeccion(id);
+window.mostrarFormulario = () => controladorSecciones.mostrarFormulario();
+window.alternarMenu = () => controladorSecciones.alternarMenu();
+window.mostrarEmpresas = categoria => controladorEmpresas.mostrarEmpresasPorCategoria(categoria);
