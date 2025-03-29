@@ -315,33 +315,12 @@ const controladorSecciones = {
 
     // Acciones específicas por sección
     if (id === 'charlas') {
-      this.actualizarEstadoCharlas();
+      // Se elimina la llamada a this.actualizarEstadoCharlas();
     } else if (id === 'empresas') {
       controladorEmpresas.mostrarEmpresasPorCategoria('todas');
     } else if (id === 'muestras') {
       controladorMuestras.actualizarMuestras();
     }
-  },
-
-  // Actualiza el estado de las charlas según la hora actual
-  actualizarEstadoCharlas() {
-    const ahora = new Date();
-    const hora = ahora.getHours();
-    const minuto = ahora.getMinutes();
-
-    let mensaje = "";
-
-    if (hora < 10) {
-      mensaje = "Las charlas aún no han comenzado.";
-    } else if (hora < 11 || (hora === 11 && minuto < 30)) {
-      mensaje = "La charla 'Nuevas tecnologías en la construcción' está en curso o por empezar.";
-    } else if (hora < 13) {
-      mensaje = "La charla 'Instalación de redes sanitarias seguras' está en curso o por empezar.";
-    } else {
-      mensaje = "Las charlas han finalizado por hoy.";
-    }
-
-    utilidades.obtenerElemento("#estadoCharlas").innerText = mensaje;
   },
 
   // Muestra el formulario y hace scroll hacia él
