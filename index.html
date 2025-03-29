@@ -32,9 +32,9 @@
   <nav id="main-nav">
     <div class="nav-container">
       <a onclick="mostrarSeccion('inicio')"><i class="fas fa-home"></i> Inicio</a>
+      <a onclick="mostrarSeccion('inscripcion')"><i class="fas fa-clipboard-list"></i> Inscripción</a>
       <a onclick="mostrarSeccion('charlas')"><i class="fas fa-chalkboard-teacher"></i> Charlas</a>
       <a onclick="mostrarSeccion('empresas')"><i class="fas fa-building"></i> Empresas</a>
-      <a onclick="mostrarSeccion('inscripcion')"><i class="fas fa-clipboard-list"></i> Inscripción</a>
       <a onclick="mostrarSeccion('muestras')"><i class="fas fa-map-marker-alt"></i> Muestras</a>
     </div>
   </nav>
@@ -94,46 +94,6 @@
           </li>
         </ul>
       </div>
-    </section>
-
-    <!-- Sección Charlas (Formato de tabla y estado dinámico) -->
-    <section id="charlas" class="section">
-      <h2>Programación de Charlas</h2>
-      <p id="estadoCharlas" style="font-weight:bold; color:#124565;"></p>
-      <div class="table-responsive">
-        <table class="charlas-table">
-          <thead>
-            <tr>
-              <th>Horario</th>
-              <th>Charla</th>
-              <th>Empresa</th>
-              <th>Ubicación</th>
-            </tr>
-          </thead>
-          <tbody id="charlas-lista">
-            <!-- Las charlas se cargarán dinámicamente -->
-          </tbody>
-        </table>
-      </div>
-      <button class="btn-volver" onclick="mostrarSeccion('inicio')">Volver al Inicio</button>
-    </section>
-
-    <!-- Sección Empresas Participantes -->
-    <section id="empresas" class="section">
-      <h2>Empresas Participantes</h2>
-      <p>Estas son todas las empresas que participarán en la exposición. Puedes filtrar por categoría:</p>
-      <div class="categorias-buttons">
-        <button class="btn-categoria active" onclick="mostrarEmpresas('todas')">Todas</button>
-        <button class="btn-categoria" onclick="mostrarEmpresas('construccion')">Construcción</button>
-        <button class="btn-categoria" onclick="mostrarEmpresas('sanitarias')">Sanitarias</button>
-        <button class="btn-categoria" onclick="mostrarEmpresas('instituciones')">Instituciones</button>
-        <button class="btn-categoria" onclick="mostrarEmpresas('electricidad')">Electricidad</button>
-        <button class="btn-categoria" onclick="mostrarEmpresas('informatica')">Informática</button>
-      </div>
-      <div id="empresas-lista" class="empresas-grid">
-        <!-- Las empresas se cargarán dinámicamente -->
-      </div>
-      <button class="btn-volver" onclick="mostrarSeccion('inicio')">Volver al Inicio</button>
     </section>
 
     <!-- Sección Inscripción -->
@@ -203,6 +163,46 @@
         </a>
       </div>
 
+      <button class="btn-volver" onclick="mostrarSeccion('inicio')">Volver al Inicio</button>
+    </section>
+
+    <!-- Sección Charlas (Formato de tabla y estado dinámico) -->
+    <section id="charlas" class="section">
+      <h2>Programación de Charlas</h2>
+      <p id="estadoCharlas" style="font-weight:bold; color:#124565;"></p>
+      <div class="table-responsive">
+        <table class="charlas-table">
+          <thead>
+            <tr>
+              <th>Horario</th>
+              <th>Charla</th>
+              <th>Empresa</th>
+              <th>Ubicación</th>
+            </tr>
+          </thead>
+          <tbody id="charlas-lista">
+            <!-- Las charlas se cargarán dinámicamente -->
+          </tbody>
+        </table>
+      </div>
+      <button class="btn-volver" onclick="mostrarSeccion('inicio')">Volver al Inicio</button>
+    </section>
+
+    <!-- Sección Empresas Participantes -->
+    <section id="empresas" class="section">
+      <h2>Empresas Participantes</h2>
+      <p>Estas son todas las empresas que participarán en la exposición. Puedes filtrar por categoría:</p>
+      <div class="categorias-buttons">
+        <button class="btn-categoria active" onclick="mostrarEmpresas('todas')">Todas</button>
+        <button class="btn-categoria" onclick="mostrarEmpresas('construccion')">Construcción</button>
+        <button class="btn-categoria" onclick="mostrarEmpresas('sanitarias')">Sanitarias</button>
+        <button class="btn-categoria" onclick="mostrarEmpresas('instituciones')">Instituciones</button>
+        <button class="btn-categoria" onclick="mostrarEmpresas('electricidad')">Electricidad</button>
+        <button class="btn-categoria" onclick="mostrarEmpresas('informatica')">Informática</button>
+      </div>
+      <div id="empresas-lista" class="empresas-grid">
+        <!-- Las empresas se cargarán dinámicamente -->
+      </div>
       <button class="btn-volver" onclick="mostrarSeccion('inicio')">Volver al Inicio</button>
     </section>
 
