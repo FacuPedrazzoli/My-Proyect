@@ -230,7 +230,7 @@ const controladorInscripciones = {
       apellido: utilidades.obtenerElemento("#apellido").value,
       dni: utilidades.obtenerElemento("#dni").value,
       email: utilidades.obtenerElemento("#email").value,
-      conocio: utilidades.obtenerElemento("#conocio").value,
+      conocio: utilidades.obtenerElemento("#como-te-enteraste").value,
       charlaId: utilidades.obtenerElemento("#charla").value
     };
 
