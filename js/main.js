@@ -57,7 +57,6 @@ const controladorSecciones = {
 
     // Acciones específicas por sección
     if (id === 'charlas') {
-      // Se elimina la llamada a this.actualizarEstadoCharlas();
     } else if (id === 'empresas') {
       controladorEmpresas.mostrarEmpresasPorCategoria('todas');
     } else if (id === 'muestras') {
@@ -82,30 +81,49 @@ const controladorSecciones = {
 // Controlador de charlas
 const controladorCharlas = {
   // Inicializa y carga las charlas
-  inicializar() {
-    // Verificar si ya tenemos charlas guardadas
-    let charlas = utilidades.recuperarDatos('charlas');
+  async inicializar() {
+    try {
+      // Obtener charlas del servidor
+      const response = await fetch('/api/inscripcion/charlas');
 
-    if (charlas.length === 0) {
-      // Agregar IDs a las charlas predefinidas
-      charlas = DATOS.charlas.map(charla => ({
+      if (!response.ok) {
+        throw new Error('No se pudieron cargar las charlas');
+      }
+
+      const charlas = await response.json();
+
+      // Si no hay charlas, usar las predefinidas
+      if (!charlas || charlas.length === 0) {
+        // Agregar IDs a las charlas predefinidas
+        const charlasConIDs = DATOS.charlas.map(charla => ({
+          ...charla,
+          id: utilidades.generarUUID()
+        }));
+
+        this.actualizarInterfazCharlas(charlasConIDs);
+        return charlasConIDs;
+      }
+
+      this.actualizarInterfazCharlas(charlas);
+      return charlas;
+    } catch (error) {
+      console.error('Error al cargar charlas:', error);
+
+      // En caso de error, usar las charlas predefinidas
+      const charlasLocales = DATOS.charlas.map(charla => ({
         ...charla,
         id: utilidades.generarUUID()
       }));
 
-      // Guardar en localStorage
-      utilidades.guardarDatos('charlas', charlas);
+      this.actualizarInterfazCharlas(charlasLocales);
+      return charlasLocales;
     }
-
-    this.actualizarInterfazCharlas(charlas);
-    return charlas;
   },
 
   // Actualiza toda la UI relacionada con charlas
   actualizarInterfazCharlas(charlas) {
     this.actualizarTablaCharlas(charlas);
     this.actualizarSelectoresCharlas(charlas);
-    // Se elimina la llamada a this.actualizarContadoresInscriptos();
   },
 
   // Actualiza la tabla de charlas
@@ -221,48 +239,58 @@ const controladorEmpresas = {
 // Controlador de inscripciones
 const controladorInscripciones = {
   // Maneja la inscripción desde el formulario
-  procesarInscripcion(evento) {
+  async procesarInscripcion(evento) {
     evento.preventDefault();
 
-    // Recoger datos del formulario
+    const selectCharla = utilidades.obtenerElemento("#charla");
+    let charlaId = selectCharla.value;
+
+    // Si no hay una charla seleccionada, usa un ID generado
+    if (!charlaId) {
+      charlaId = utilidades.generarUUID();
+    }
+
+    // Recuperando datos del formulario agregando id y fecha
     const datosFormulario = {
+      id: utilidades.generarUUID(),
       nombre: utilidades.obtenerElemento("#nombre").value,
       apellido: utilidades.obtenerElemento("#apellido").value,
       dni: utilidades.obtenerElemento("#dni").value,
       email: utilidades.obtenerElemento("#email").value,
-      conocio: utilidades.obtenerElemento("#como-te-enteraste").value,
-      charlaId: utilidades.obtenerElemento("#charla").value
-    };
-
-    // Validación básica
-    if (!datosFormulario.charlaId) {
-      alert("Por favor seleccione una charla");
-      return;
-    }
-
-    // Incrementar contador de inscriptos
-    let inscriptos = parseInt(localStorage.getItem(datosFormulario.charlaId)) || 0;
-    inscriptos++;
-    localStorage.setItem(datosFormulario.charlaId, inscriptos);
-
-    // Crear y guardar la inscripción
-    const inscripcion = {
-      id: utilidades.generarUUID(),
-      ...datosFormulario,
+      como_te_enteraste: utilidades.obtenerElemento("#como-te-enteraste").value,
+      charla: charlaId,
       fecha: new Date().toISOString()
     };
 
-    // Guardar en localStorage
-    const inscripciones = utilidades.recuperarDatos('inscripciones', []);
-    inscripciones.push(inscripcion);
-    utilidades.guardarDatos('inscripciones', inscripciones);
+    try {
+      // Envío al servidor usando fetch
+      const response = await fetch('/api/inscripcion', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(datosFormulario)
+      });
 
-    // Mostrar mensaje de éxito
-    const charlas = utilidades.recuperarDatos('charlas', []);
-    const charla = charlas.find(c => c.id === datosFormulario.charlaId);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.mensaje || errorData.error || 'Error en la inscripción');
+      }
 
-    if (charla) {
-      alert(`¡Inscripción exitosa a la charla "${charla.titulo}"!`);
+      const responseData = await response.json();
+
+      // Mostrar mensaje de éxito más específico
+      alert(`¡Inscripción exitosa! Tu registro ha sido confirmado.`);
+
+      // Si la charla fue creada automáticamente, actualizar la lista de charlas
+      if (responseData.idCharla && responseData.idCharla !== charlaId) {
+        // Recargar charlas para reflejar la nueva charla
+        controladorCharlas.inicializar();
+      }
+
+    } catch (error) {
+      console.error('Error:', error);
+      alert(`Error: ${error.message || 'No se pudo completar la inscripción'}`);
     }
 
     // Resetear formulario
@@ -308,6 +336,31 @@ const controladorMuestras = {
   }
 };
 
+// Usuario y contraseña predefinidos
+const credencialesAdmin = {
+  usuario: "admin",
+  contrasena: "1234"
+};
+
+// Validar el formulario de acceso administrativo
+const validarAccesoAdmin = (evento) => {
+  evento.preventDefault();
+
+  const usuario = utilidades.obtenerElemento("#admin-user").value;
+  const contrasena = utilidades.obtenerElemento("#admin-password").value;
+
+  if (usuario === credencialesAdmin.usuario && contrasena === credencialesAdmin.contrasena) {
+    
+    // Ocultar el formulario de validación
+    utilidades.obtenerElemento("#validacionForm").style.display = "none";
+    
+    // Mostrar el panel administrativo
+    utilidades.obtenerElemento("#admin-panel").style.display = "block";
+  } else {
+    alert("Usuario o contraseña incorrectos. Inténtalo nuevamente.");
+  }
+};
+
 // Inicializar la aplicación
 window.onload = function () {
   // Inicializar charlas
@@ -324,6 +377,11 @@ window.onload = function () {
   if (formularioInscripcion) {
     formularioInscripcion.addEventListener('click', evento =>
       controladorInscripciones.procesarInscripcion(evento));
+  }
+
+  const formularioAdmin = utilidades.obtenerElemento("#validacionForm");
+  if (formularioAdmin) {
+    formularioAdmin.addEventListener("submit", validarAccesoAdmin);
   }
 };
 

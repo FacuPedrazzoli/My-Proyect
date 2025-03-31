@@ -134,11 +134,11 @@
               <label for="como-te-enteraste">¿Cómo conociste la expo?:</label>
               <select id="como-te-enteraste" required>
                 <option value="">Selecciona una opción</option>
-                <option value="redes">Redes sociales</option>
-                <option value="amigos">Amigos o colegas</option>
-                <option value="trabajo">Trabajo</option>
-                <option value="universidad">Universidad o instituto</option>
-                <option value="otros">Otros medios</option>
+                <option value="Redes sociales">Redes sociales</option>
+                <option value="Amigos">Amigos</option>
+                <option value="Email">Email</option>
+                <option value="Página web">Página web</option>
+                <option value="Otros">Otros medios</option>
               </select>
             </div>
             <div class="form-group">
@@ -216,6 +216,77 @@
 
       <button class="btn-volver" onclick="mostrarSeccion('inicio')">Volver al Inicio</button>
     </section>
+  </section>
+
+  <!-- Sección Validación de Usuarios -->
+  <section id="validacion" class="section">
+    <h2>Validación de Usuarios</h2>
+    <p>Área administrativa para validar inscripciones de participantes.</p>
+
+    <div class="form-container">
+      <div class="form-header">
+        <i class="fas fa-user-shield"></i>
+        <h3>Acceso Administrativo</h3>
+      </div>
+      <form id="validacionForm">
+        <div class="form-group">
+          <label for="admin-user">Usuario:</label>
+          <input type="text" id="admin-user" required>
+        </div>
+        <div class="form-group">
+          <label for="admin-password">Contraseña:</label>
+          <input type="password" id="admin-password" required>
+        </div>
+
+        <button id="btn-admin-login" class="btn-submit">Acceder</button>
+      </form>
+    </div>
+
+    <div id="admin-panel" style="display: none;">
+      <h3>Panel de Validación</h3>
+
+      <div class="form-container search-container">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="buscar-dni">Buscar por DNI:</label>
+            <input type="text" id="buscar-dni" placeholder="Ingrese DNI del participante">
+          </div>
+          <div class="form-group" style="display: flex; align-items: flex-end;">
+            <button id="btn-buscar-dni" class="btn-submit">
+              <i class="fas fa-search"></i> Buscar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="charlas-table">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>DNI</th>
+              <th>Charla</th>
+              <th>Estado</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody id="inscriptos-lista">
+            <!-- Los inscriptos se cargarán dinámicamente -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Mensaje si no hay resultados -->
+      <div id="no-resultados" style="display: none; text-align: center; padding: 20px; color: #666;">
+        <i class="fas fa-info-circle" style="font-size: 2rem; color: #56bcb8; margin-bottom: 15px;"></i>
+        <p>No se encontraron participantes con ese DNI. Verifique el número e intente nuevamente.</p>
+      </div>
+    </div>
+
+    <button class="btn-volver" onclick="mostrarSeccion('inicio')">Volver al Inicio</button>
+  </section>
+
+
   </div>
 
   <!-- Pie de Página con Redes Sociales -->
@@ -227,6 +298,9 @@
         <a href="https://www.instagram.com/cific_3?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
           target="_blank"><i class="fab fa-instagram"></i></a>
         <a href="https://wa.me/123456789" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        <div class="admin-link" onclick="mostrarSeccion('validacion')">
+          <div class="logo-admin">D</div>
+        </div>
       </div>
     </div>
   </footer>
